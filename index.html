@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yelp — Say Anything</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      Yelp <div class="logo-dot"></div>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-ghost" onclick="showModal('loginModal')">Log in</button>
+      <button class="btn btn-primary" onclick="showModal('signupModal')">Sign up</button>
+    </div>
+    <div class="nav-user hidden" id="navUser">
+      <span id="navEmail"></span>
+      <button class="btn btn-ghost" onclick="logout()">Log out</button>
+      <button class="btn btn-danger" onclick="confirmDeleteAccount()">Delete account</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-beam"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Anonymous thoughts
+      </div>
+      <h1>Say what's on<br><em>your mind.</em></h1>
+      <p>No names. No judgment. Just raw, honest thoughts from everyone — visible to the world.</p>
+      <div class="hero-actions">
+        <!-- The spotlight button — matches reference image -->
+        <button class="btn-spotlight" onclick="showModal('signupModal')" id="heroSignupBtn">
+          <span class="spotlight-left">
+            <span>+</span> Create
+          </span>
+          <span class="spotlight-divider"></span>
+          <span class="spotlight-right">your account</span>
+        </button>
+        <button class="btn btn-ghost" onclick="scrollToFeed()">Read thoughts ↓</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- POST BOX (shown when logged in) -->
+  <section class="post-section hidden" id="postSection">
+    <div class="post-card">
+      <textarea id="thoughtInput" placeholder="What's on your mind?" maxlength="500"></textarea>
+      <div class="post-footer">
+        <input type="text" id="penName" placeholder="Pen name (optional)" maxlength="40"/>
+        <button class="btn btn-primary" onclick="postThought()">Post thought</button>
+      </div>
+      <div id="postError" class="error-msg hidden"></div>
+    </div>
+  </section>
+
+  <!-- FEED -->
+  <main class="feed" id="feed">
+    <div class="feed-header">
+      <h2>All thoughts</h2>
+      <span id="thoughtCount" class="count-badge"></span>
+    </div>
+    <div id="thoughtsList">
+      <div class="loading">Loading thoughts…</div>
+    </div>
+  </main>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay hidden" id="loginModal">
+    <div class="modal">
+      <button class="modal-close" onclick="hideModal('loginModal')">✕</button>
+      <h2>Welcome back</h2>
+      <input type="email" id="loginEmail" placeholder="Email" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <div id="loginError" class="error-msg hidden"></div>
+      <button class="btn btn-primary full" onclick="login()">Log in</button>
+      <p class="switch-auth">No account? <a onclick="switchModal('loginModal','signupModal')">Sign up</a></p>
+    </div>
+  </div>
+
+  <!-- SIGNUP MODAL -->
+  <div class="modal-overlay hidden" id="signupModal">
+    <div class="modal">
+      <button class="modal-close" onclick="hideModal('signupModal')">✕</button>
+      <h2>Join Yelp</h2>
+      <input type="email" id="signupEmail" placeholder="Email" />
+      <input type="password" id="signupPassword" placeholder="Password (min 6 chars)" />
+      <div id="signupError" class="error-msg hidden"></div>
+      <button class="btn btn-primary full" onclick="signup()">Create account</button>
+      <p class="switch-auth">Have an account? <a onclick="switchModal('signupModal','loginModal')">Log in</a></p>
+    </div>
+  </div>
+
+  <!-- CONFIRM DELETE MODAL -->
+  <div class="modal-overlay hidden" id="deleteModal">
+    <div class="modal">
+      <button class="modal-close" onclick="hideModal('deleteModal')">✕</button>
+      <h2>Delete account?</h2>
+      <p class="confirm-text">This permanently deletes your account and all your thoughts. This cannot be undone.</p>
+      <div id="deleteError" class="error-msg hidden"></div>
+      <button class="btn btn-danger full" onclick="deleteAccount()">Yes, delete everything</button>
+      <button class="btn btn-ghost full" onclick="hideModal('deleteModal')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function scrollToFeed() {
+      document.getElementById('feed').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
